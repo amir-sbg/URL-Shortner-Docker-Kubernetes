@@ -56,7 +56,7 @@ def open_short(short_url):
         
     except database.Error as e:
         print(f"Error retrieving entry from database: {e}")
-        return ('error2',data['db_host'])
+        return ('error2')
 
 if __name__ == '__main__':
 
