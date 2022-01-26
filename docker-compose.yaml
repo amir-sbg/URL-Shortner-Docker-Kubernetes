@@ -1,0 +1,17 @@
+version: '3'
+services:
+
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+      
+  db:
+    image: mariadb
+    ports:
+    - "3306:3306"
+    restart: always
+    environment:
+    - MARIADB_ROOT_PASSWORD= faraz
+    - MARIADB_PASSWORD= faraz
+

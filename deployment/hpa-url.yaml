@@ -1,0 +1,30 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  annotations:
+    autoscaling.alpha.kubernetes.io/conditions: '[{"type":"AbleToScale","status":"True","lastTransitionTime":"2022-01-25T16:00:48Z","reason":"SucceededGetScale","message":"the
+      HPA controller was able to get the target''s current scale"},{"type":"ScalingActive","status":"True","lastTransitionTime":"2022-01-25T16:00:48Z"}]'
+  creationTimestamp: "2022-01-25T16:00:33Z"
+  name: url
+  namespace: default
+  resourceVersion: "5566"
+  uid: 281dfc7f-e1b4-4cd7-87f5-6e4d5865f1b1
+spec:
+  maxReplicas: 10
+  minReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: url
+  targetCPUUtilizationPercentage: 50
+  
+status:
+  currentReplicas: 3
+  desiredReplicas: 0
