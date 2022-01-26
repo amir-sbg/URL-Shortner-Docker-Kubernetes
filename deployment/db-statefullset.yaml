@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mdb
+spec:
+  selector:
+    matchLabels:
+      app: mdb
+  serviceName: "db-service"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mdb
+    spec:
+      containers:
+      - image: mariadb:latest
+        resources: { }
+        name: mariadb
+        ports:
+          - containerPort: 3306
+        env:
+          - name: MARIADB_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: db_password
+                name: db-secret
+          - name: MARIADB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: db_password
+                name: db-secret
+        volumeMounts:
+          - name: mysql-persistent-storage
+            mountPath: /var/lib/mysql
+
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-persistent-storage
+      spec:
+        resources:
+          requests:
+            storage: 1Gi
+        accessModes:
+          - ReadWriteOnce
